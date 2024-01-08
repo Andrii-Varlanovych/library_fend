@@ -1,0 +1,33 @@
+<div>
+  <h1>{{ book.title }}</h1>
+
+  <div class="button-container">
+    <p *ngIf="book.completed; else notAvialable">Book is avialable</p>
+    <ng-template #notAvialable>
+      <p class="uncompletedColor">Book is not avialable</p>
+    </ng-template>
+
+    <button class="btn btn-danger" (click)="deleteBook(book.id)">
+      Delete book
+    </button>
+  </div>
+  <div>
+    <p *ngIf="isShowId">
+      <strong>User ID: {{ book.userId }}</strong>
+    </p>
+  </div>
+  <p></p>
+  <button class="btn" routerLink="/books">Back</button>
+  <p></p>
+  <button
+    class="btn"
+    [routerLink]="['/book', book.id]"
+    [queryParams]="{ showUserId: true }"
+  >
+    Show userId
+  </button>
+  <button class="btn" (click)="hideUserId()">Hide userId</button>
+  <p></p>
+  <button (click)="editBook()" class="btn">Edit book</button>
+</div>
+<router-outlet></router-outlet>

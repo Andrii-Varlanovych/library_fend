@@ -1,0 +1,46 @@
+<div class="container">
+  <form class="card" [formGroup]="form" (ngSubmit)="submit()">
+    <!-- <div class="form-control">
+      <label>UserId</label>
+      <input type="text" placeholder="UserId" formControlName="userId" />
+      <div class="validation"></div>
+    </div> -->
+
+    <!-- <div class="form-control">
+      <label>BookId</label>
+      <input type="text" placeholder="BookId" formControlName="id" />
+      <div class="validation"></div>
+    </div> -->
+
+    <div class="form-control">
+      <label>Title</label>
+      <input type="text" placeholder="Title" formControlName="title" />
+      <!-- <pre>{{ form.get("title")?.errors | json }}</pre> -->
+      <div
+        *ngIf="form.get('title')?.invalid && form.get('title')?.touched"
+        class="validation"
+      >
+        <small *ngIf="form.get('title')?.errors?.['required']"
+          >This field can't be empty</small
+        >
+        <small *ngIf="form.get('title')?.errors?.['minlength']">
+          Title must containes
+          {{form.get('title')?.errors?.['minlength']?.requiredLength}} chars.
+          You have entered only
+          {{form.get('title')?.errors?.['minlength']?.actualLength}} char(s).
+        </small>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <label>Complited</label>
+      <select formControlName="completed">
+        <option value="true">Avialable</option>
+        <option value="false">Not avialable</option>
+      </select>
+      <div class="validation"></div>
+    </div>
+
+    <button class="btn" type="submit" [disabled]="form.invalid">Add</button>
+  </form>
+</div>

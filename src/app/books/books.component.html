@@ -1,0 +1,25 @@
+<h1>Books page</h1>
+
+<button class="btn" (click)="getBookService.fetchBooks()">Fetch books</button>
+
+<div *ngIf="getIsLoading(); else loadedblock">
+  <h3>Loading...</h3>
+</div>
+
+<ng-template #loadedblock>
+  <div class="card" *ngFor="let book of getBookService.books">
+    <h4>
+      <a [routerLink]="['/book', book.id]">
+        <!-- <strong>(ID {{ book.id }})</strong> -->
+        <p>{{ book.title }}</p>
+        <p *ngIf="book.completed; else notAvialable">Book is avialable</p>
+        <ng-template #notAvialable>
+          <p class="uncompletedColor">Book is not avialable</p>
+        </ng-template>
+      </a>
+    </h4>
+  </div>
+</ng-template>
+
+<button [routerLink]="['/books', 'add-book']" class="btn">Add new book</button>
+<router-outlet></router-outlet>

@@ -1,0 +1,11 @@
+p {
+  &.uncompletedColor {
+    color: red;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
