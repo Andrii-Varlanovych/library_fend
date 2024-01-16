@@ -13,7 +13,9 @@ export interface Book {
 }
 
 export interface MyError {
-  err: string;
+  message: string;
+  status?: number;
+  timestamp?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -47,9 +49,12 @@ export class BooksService {
         BooksComponent.isLoading = false;
       },
       (error) => {
+        console.log(error);
         this.router.navigate(['error'], {
           queryParams: {
-            err: error.message,
+            message: error.error.message,
+            status: error.status,
+            timestamp: error.error.timestamp,
           },
         });
       }
@@ -67,7 +72,9 @@ export class BooksService {
       (error) => {
         this.router.navigate(['error'], {
           queryParams: {
-            err: error.message,
+            message: error.error.message,
+            status: error.status,
+            timestamp: error.error.timestamp,
           },
         });
       }
@@ -83,7 +90,9 @@ export class BooksService {
       (error) => {
         this.router.navigate(['error'], {
           queryParams: {
-            err: error.message,
+            message: error.error.message,
+            status: error.status,
+            timestamp: error.error.timestamp,
           },
         });
       }
@@ -104,7 +113,9 @@ export class BooksService {
       (error) => {
         this.router.navigate(['error'], {
           queryParams: {
-            err: error.message,
+            message: error.error.message,
+            status: error.status,
+            timestamp: error.error.timestamp,
           },
         });
       }

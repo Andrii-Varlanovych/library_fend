@@ -10,12 +10,12 @@ export class HttpService {
 
   fetchBooks(): Observable<Book[]> {
     return this.http
-      .get<Book[]>('https://jsonplaceholder.typicode.com/todos?_limit=5')
+      .get<Book[]>('http://localhost:8080/books')
       .pipe(delay(1500));
   }
 
   post(newBook: Book): Observable<Book> {
-    return this.http.post<Book>('https://jsonplaceholder.typicode.com/todos', {
+    return this.http.post<Book>('http://localhost:8080/books', {
       newBook,
     });
   }
@@ -35,3 +35,7 @@ export class HttpService {
     );
   }
 }
+
+// http://localhost:8080/books
+// https://jsonplaceholder.typicode.com/todos?_limit=5
+//https://jsonplaceholder.typicode.com/todos

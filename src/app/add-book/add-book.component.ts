@@ -31,7 +31,6 @@ export class AddBookComponent implements OnInit {
       title: formData.title,
       completed: JSON.parse(formData.completed),
     };
-    console.log('newBook', newBook);
     this.booksService.addBook(newBook);
   }
 }

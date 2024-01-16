@@ -1,3 +1,4 @@
-<h1>Error 404</h1>
-<h3>{{ error.err }}</h3>
+<h1>Error {{ error.status }}</h1>
+<h3>{{ error.message }}</h3>
+<h3>{{ error.timestamp }}</h3>
 <a routerLink="/home">Home page</a>
