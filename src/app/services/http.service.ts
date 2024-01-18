@@ -15,27 +15,19 @@ export class HttpService {
   }
 
   post(newBook: Book): Observable<Book> {
-    return this.http.post<Book>('http://localhost:8080/books', {
-      newBook,
-    });
+    return this.http.post<Book>('http://localhost:8080/books', newBook);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(
-      `https://jsonplaceholder.typicode.com/todos/${id}`
-    );
+    return this.http.delete<void>(`http://localhost:8080/books/${id}`);
   }
 
   editBook(id: number, book: Book): Observable<Book> {
-    return this.http.put<Book>(
-      `https://jsonplaceholder.typicode.com/todos/${id}`,
-      {
-        book,
-      }
-    );
+    return this.http.put<Book>(`http://localhost:8080/books/${id}`, book);
   }
 }
 
 // http://localhost:8080/books
 // https://jsonplaceholder.typicode.com/todos?_limit=5
 //https://jsonplaceholder.typicode.com/todos
+//https://jsonplaceholder.typicode.com/todos/${id}

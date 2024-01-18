@@ -33,16 +33,12 @@ export class EditBookComponent implements OnInit {
   }
   submit() {
     const book = this.form.value;
-    console.log('Book in form', this.book);
-    console.log('Comes from form', book);
-
     const editedBook: Book = {
       title: book.title,
       completed: JSON.parse(book.completed),
       id: JSON.parse(String(this.book.id)),
       userId: JSON.parse(String(this.book.userId)),
     };
-    console.log('EditedBook', editedBook);
 
     if (this.book.id) {
       this.booksService.editBook(this.book.id, editedBook);

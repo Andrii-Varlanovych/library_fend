@@ -20,7 +20,7 @@ export interface MyError {
 
 @Injectable({ providedIn: 'root' })
 export class BooksService {
-  books: Book[];
+  books: Book[] = [];
   // = [
   //   { userId: 11, id: 1, title: 'Book 1', completed: false },
   //   { userId: 22, id: 2, title: 'Book 2', completed: true },
@@ -62,12 +62,10 @@ export class BooksService {
   }
 
   addBook(newBook: Book) {
-    newBook.userId = 0;
+    // newBook.userId = 0;
     this.httpService.post(newBook).subscribe(
       (book) => {
-        let addedBook: Book = Object.values(book)[0];
-        addedBook.id = book.id;
-        this.books.push(addedBook);
+        this.books.push(book);
       },
       (error) => {
         this.router.navigate(['error'], {
@@ -102,12 +100,11 @@ export class BooksService {
   editBook(id: number, book: Book) {
     this.httpService.editBook(id, book).subscribe(
       (responseBook) => {
-        const putedBook: Book = Object.values(responseBook)[0];
         let findedInBooks: Book = this.books.find(
-          (b) => b.id === Object.values(responseBook)[1]
+          (b) => b.id === responseBook.id
         ) as Book;
-        findedInBooks.title = putedBook.title;
-        findedInBooks.completed = putedBook.completed;
+        Object.assign(findedInBooks, responseBook);
+
         this.router.navigate(['/books']);
       },
       (error) => {

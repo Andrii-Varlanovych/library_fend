@@ -15,8 +15,6 @@ export class AddBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      // userId: new FormControl(1),
-      //id: new FormControl(12),
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(5),
