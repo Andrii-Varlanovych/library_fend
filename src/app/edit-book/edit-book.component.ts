@@ -21,11 +21,14 @@ export class EditBookComponent implements OnInit {
   ngOnInit() {
     this.router.queryParams.subscribe((params) => {
       this.book = params as Book;
-      //console.log('Comes to form', this.book);
       this.form = new FormGroup({
         title: new FormControl(`${this.book.title}`, [
           Validators.required,
-          Validators.minLength(5),
+          Validators.minLength(4),
+        ]),
+        author: new FormControl(`${this.book.author}`, [
+          Validators.required,
+          Validators.minLength(3),
         ]),
         completed: new FormControl(`${this.book.completed}`),
       });
@@ -35,6 +38,7 @@ export class EditBookComponent implements OnInit {
     const book = this.form.value;
     const editedBook: Book = {
       title: book.title,
+      author: book.author,
       completed: JSON.parse(book.completed),
       id: JSON.parse(String(this.book.id)),
       userId: JSON.parse(String(this.book.userId)),

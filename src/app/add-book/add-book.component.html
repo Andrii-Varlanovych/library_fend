@@ -33,6 +33,25 @@
     </div>
 
     <div class="form-control">
+      <label>Author</label>
+      <input type="text" placeholder="Author" formControlName="author" />
+      <div
+        *ngIf="form.get('author')?.invalid && form.get('author')?.touched"
+        class="validation"
+      >
+        <small *ngIf="form.get('author')?.errors?.['required']"
+          >This field can't be empty</small
+        >
+        <small *ngIf="form.get('author')?.errors?.['minlength']">
+          Title must containes
+          {{form.get('author')?.errors?.['minlength']?.requiredLength}} chars.
+          You have entered only
+          {{form.get('author')?.errors?.['minlength']?.actualLength}} char(s).
+        </small>
+      </div>
+    </div>
+
+    <div class="form-control">
       <label>Complited</label>
       <select formControlName="completed">
         <option value="true">Avialable</option>

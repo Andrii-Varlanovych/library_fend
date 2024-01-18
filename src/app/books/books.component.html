@@ -12,6 +12,7 @@
       <a [routerLink]="['/book', book.id]">
         <!-- <strong>(ID {{ book.id }})</strong> -->
         <p>{{ book.title }}</p>
+        <p>by {{ book.author }}</p>
         <p *ngIf="book.completed; else notAvialable">Book is avialable</p>
         <ng-template #notAvialable>
           <p class="uncompletedColor">Book is not avialable</p>

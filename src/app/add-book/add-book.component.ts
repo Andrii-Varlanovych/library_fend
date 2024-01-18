@@ -17,7 +17,11 @@ export class AddBookComponent implements OnInit {
     this.form = new FormGroup({
       title: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(4),
+      ]),
+      author: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
       ]),
       completed: new FormControl(false),
     });
@@ -27,6 +31,7 @@ export class AddBookComponent implements OnInit {
     const formData = { ...this.form.value };
     const newBook: Book = {
       title: formData.title,
+      author: formData.author,
       completed: JSON.parse(formData.completed),
     };
     this.booksService.addBook(newBook);

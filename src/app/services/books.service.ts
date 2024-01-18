@@ -9,6 +9,7 @@ export interface Book {
   userId?: number;
   id?: number;
   title: string;
+  author: string;
   completed: boolean;
 }
 
