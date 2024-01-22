@@ -2,7 +2,7 @@
 
 <button class="btn" (click)="getBookService.fetchBooks()">Fetch books</button>
 
-<div *ngIf="getIsLoading(); else loadedblock">
+<div *ngIf="getBookService.isLoadingBooks; else loadedblock">
   <h3>Loading...</h3>
 </div>
 
@@ -13,9 +13,9 @@
         <!-- <strong>(ID {{ book.id }})</strong> -->
         <p>{{ book.title }}</p>
         <p>by {{ book.author }}</p>
-        <p *ngIf="book.completed; else notAvialable">Book is avialable</p>
-        <ng-template #notAvialable>
-          <p class="uncompletedColor">Book is not avialable</p>
+        <p *ngIf="book.isAvailable; else notAvailable">Book is available</p>
+        <ng-template #notAvailable>
+          <p class="uncompletedColor">Book is not available</p>
         </ng-template>
       </a>
     </h4>

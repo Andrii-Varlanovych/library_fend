@@ -10,16 +10,16 @@ import { delay } from 'rxjs';
 })
 @Injectable({ providedIn: 'root' })
 export class BooksComponent implements OnInit {
-  static isLoading: boolean = false;
+  // static isLoading: boolean = false;
   constructor(private booksService: BooksService, private http: HttpClient) {}
 
   ngOnInit(): void {
     // this.booksService.fetchBooks();
   }
 
-  getIsLoading() {
-    return BooksComponent.isLoading;
-  }
+  // getIsLoading() {
+  //   return BooksComponent.isLoading;
+  // }
 
   get getBookService() {
     return this.booksService;

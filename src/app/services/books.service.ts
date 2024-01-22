@@ -10,7 +10,7 @@ export interface Book {
   id?: number;
   title: string;
   author: string;
-  completed: boolean;
+  isAvailable: boolean;
 }
 
 export interface MyError {
@@ -21,6 +21,8 @@ export interface MyError {
 
 @Injectable({ providedIn: 'root' })
 export class BooksService {
+  isLoadingBooks: boolean = false;
+  isHavingBooks: boolean = false;
   books: Book[] = [];
   // = [
   //   { userId: 11, id: 1, title: 'Book 1', completed: false },
@@ -42,12 +44,14 @@ export class BooksService {
   }
 
   fetchBooks() {
-    BooksComponent.isLoading = true;
+    // BooksComponent.isLoading = true;
+    this.isLoadingBooks = true;
 
     this.httpService.fetchBooks().subscribe(
       (responce) => {
         this.books = responce as Book[];
-        BooksComponent.isLoading = false;
+        // BooksComponent.isLoading = false;
+        this.isLoadingBooks = false;
       },
       (error) => {
         console.log(error);
@@ -107,6 +111,75 @@ export class BooksService {
         Object.assign(findedInBooks, responseBook);
 
         this.router.navigate(['/books']);
+      },
+      (error) => {
+        this.router.navigate(['error'], {
+          queryParams: {
+            message: error.error.message,
+            status: error.status,
+            timestamp: error.error.timestamp,
+          },
+        });
+      }
+    );
+  }
+
+  findBookByTitle(searchingFragment: string) {
+    this.isHavingBooks = false;
+    this.isLoadingBooks = true;
+    this.httpService.findBookByTitle(searchingFragment).subscribe(
+      (response) => {
+        this.books = response;
+        this.isLoadingBooks = false;
+        if (this.books.length === 0) {
+          this.isHavingBooks = true;
+        }
+      },
+      (error) => {
+        this.router.navigate(['error'], {
+          queryParams: {
+            message: error.error.message,
+            status: error.status,
+            timestamp: error.error.timestamp,
+          },
+        });
+      }
+    );
+  }
+
+  findBookByAuthor(searchingFragment: string) {
+    this.isHavingBooks = false;
+    this.isLoadingBooks = true;
+    this.httpService.findBookByAuthor(searchingFragment).subscribe(
+      (responce) => {
+        this.books = responce;
+        this.isLoadingBooks = false;
+        if (this.books.length === 0) {
+          this.isHavingBooks = true;
+        }
+      },
+      (error) => {
+        this.router.navigate(['error'], {
+          queryParams: {
+            message: error.error.message,
+            status: error.status,
+            timestamp: error.error.timestamp,
+          },
+        });
+      }
+    );
+  }
+
+  findBookByIsAvailable(isAvailable: boolean) {
+    this.isHavingBooks = false;
+    this.isLoadingBooks = true;
+    this.httpService.findBookByIsAvailable(isAvailable).subscribe(
+      (responce) => {
+        this.books = responce;
+        this.isLoadingBooks = false;
+        if (this.books.length === 0) {
+          this.isHavingBooks = true;
+        }
       },
       (error) => {
         this.router.navigate(['error'], {

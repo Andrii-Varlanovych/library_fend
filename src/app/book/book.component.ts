@@ -44,7 +44,7 @@ export class BookComponent implements OnInit {
         id: this.book.id,
         title: this.book.title,
         author: this.book.author,
-        completed: this.book.completed as Boolean,
+        isAvailable: this.book.isAvailable as Boolean,
       },
     });
   }

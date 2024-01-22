@@ -1,0 +1,9 @@
+.btn {
+  margin-top: 10px;
+}
+
+p {
+  &.uncompletedColor {
+    color: red;
+  }
+}

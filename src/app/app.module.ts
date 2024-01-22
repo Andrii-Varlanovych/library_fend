@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditBookComponent } from './edit-book/edit-book.component';
 import { AboutExtraComponent } from './about-extra/about-extra.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { UserServicesComponent } from './user-services/user-services.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     EditBookComponent,
     AboutExtraComponent,
     ErrorPageComponent,
+    UserServicesComponent,
   ],
   imports: [
     BrowserModule,

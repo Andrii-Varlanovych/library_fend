@@ -25,6 +25,24 @@ export class HttpService {
   editBook(id: number, book: Book): Observable<Book> {
     return this.http.put<Book>(`http://localhost:8080/books/${id}`, book);
   }
+
+  findBookByTitle(searchingFragment: string): Observable<Book[]> {
+    return this.http
+      .get<Book[]>(`http://localhost:8080/books/title/${searchingFragment}`)
+      .pipe(delay(1500));
+  }
+
+  findBookByAuthor(searchingFragment: string): Observable<Book[]> {
+    return this.http
+      .get<Book[]>(`http://localhost:8080/books/author/${searchingFragment}`)
+      .pipe(delay(1500));
+  }
+
+  findBookByIsAvailable(isAvailable: boolean): Observable<Book[]> {
+    return this.http
+      .get<Book[]>(`http://localhost:8080/books/isAvailable/${isAvailable}`)
+      .pipe(delay(1500));
+  }
 }
 
 // http://localhost:8080/books

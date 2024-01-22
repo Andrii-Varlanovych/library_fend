@@ -30,7 +30,7 @@ export class EditBookComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
         ]),
-        completed: new FormControl(`${this.book.completed}`),
+        isAvailable: new FormControl(`${this.book.isAvailable}`),
       });
     });
   }
@@ -39,7 +39,7 @@ export class EditBookComponent implements OnInit {
     const editedBook: Book = {
       title: book.title,
       author: book.author,
-      completed: JSON.parse(book.completed),
+      isAvailable: JSON.parse(book.isAvailable),
       id: JSON.parse(String(this.book.id)),
       userId: JSON.parse(String(this.book.userId)),
     };

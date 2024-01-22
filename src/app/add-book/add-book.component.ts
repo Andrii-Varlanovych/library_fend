@@ -23,7 +23,7 @@ export class AddBookComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
       ]),
-      completed: new FormControl(false),
+      isAvailable: new FormControl(false),
     });
   }
 
@@ -32,7 +32,7 @@ export class AddBookComponent implements OnInit {
     const newBook: Book = {
       title: formData.title,
       author: formData.author,
-      completed: JSON.parse(formData.completed),
+      isAvailable: JSON.parse(formData.isAvailable),
     };
     this.booksService.addBook(newBook);
   }
