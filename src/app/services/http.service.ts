@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, delay } from 'rxjs';
 import { Book } from './books.service';
 import { BooksComponent } from '../books/books.component';
+import { User } from './users.service';
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
@@ -41,6 +42,18 @@ export class HttpService {
   findBookByIsAvailable(isAvailable: boolean): Observable<Book[]> {
     return this.http
       .get<Book[]>(`http://localhost:8080/books/isAvailable/${isAvailable}`)
+      .pipe(delay(1500));
+  }
+
+  fetchUserBooks(userId: number) {
+    return this.http
+      .get<Book[]>(`http://localhost:8080/users/${userId}/user-books`)
+      .pipe(delay(1500));
+  }
+
+  findUserById(userId: number): Observable<User> {
+    return this.http
+      .get<User>(`http://localhost:8080/users/${userId}`)
       .pipe(delay(1500));
   }
 }

@@ -41,7 +41,7 @@ export class EditBookComponent implements OnInit {
       author: book.author,
       isAvailable: JSON.parse(book.isAvailable),
       id: JSON.parse(String(this.book.id)),
-      userId: JSON.parse(String(this.book.userId)),
+      // userId: JSON.parse(String(this.book.userId)),
     };
 
     if (this.book.id) {

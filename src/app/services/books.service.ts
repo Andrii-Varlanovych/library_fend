@@ -4,9 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { HttpService } from './http.service';
 import { BooksComponent } from '../books/books.component';
 import { Route, Router } from '@angular/router';
+import { Observable, catchError } from 'rxjs';
+import { User } from './users.service';
 
 export interface Book {
-  userId?: number;
+  user?: User;
   id?: number;
   title: string;
   author: string;
@@ -43,18 +45,9 @@ export class BooksService {
     }
   }
 
-  fetchBooks() {
-    // BooksComponent.isLoading = true;
-    this.isLoadingBooks = true;
-
-    this.httpService.fetchBooks().subscribe(
-      (responce) => {
-        this.books = responce as Book[];
-        // BooksComponent.isLoading = false;
-        this.isLoadingBooks = false;
-      },
-      (error) => {
-        console.log(error);
+  fetchBooks(): Observable<Book[]> {
+    return this.httpService.fetchBooks().pipe(
+      catchError((error) => {
         this.router.navigate(['error'], {
           queryParams: {
             message: error.error.message,
@@ -62,12 +55,12 @@ export class BooksService {
             timestamp: error.error.timestamp,
           },
         });
-      }
+        throw error;
+      })
     );
   }
 
   addBook(newBook: Book) {
-    // newBook.userId = 0;
     this.httpService.post(newBook).subscribe(
       (book) => {
         this.books.push(book);
@@ -102,17 +95,9 @@ export class BooksService {
     );
   }
 
-  editBook(id: number, book: Book) {
-    this.httpService.editBook(id, book).subscribe(
-      (responseBook) => {
-        let findedInBooks: Book = this.books.find(
-          (b) => b.id === responseBook.id
-        ) as Book;
-        Object.assign(findedInBooks, responseBook);
-
-        this.router.navigate(['/books']);
-      },
-      (error) => {
+  editBook(id: number, book: Book): Observable<Book> {
+    return this.httpService.editBook(id, book).pipe(
+      catchError((error) => {
         this.router.navigate(['error'], {
           queryParams: {
             message: error.error.message,
@@ -120,22 +105,35 @@ export class BooksService {
             timestamp: error.error.timestamp,
           },
         });
-      }
+        throw error;
+      })
     );
   }
 
-  findBookByTitle(searchingFragment: string) {
-    this.isHavingBooks = false;
-    this.isLoadingBooks = true;
-    this.httpService.findBookByTitle(searchingFragment).subscribe(
-      (response) => {
-        this.books = response;
-        this.isLoadingBooks = false;
-        if (this.books.length === 0) {
-          this.isHavingBooks = true;
-        }
-      },
-      (error) => {
+  //   subscribe(
+  //     (responseBook) => {
+  //       let findedInBooks: Book = this.books.find(
+  //         (b) => b.id === responseBook.id
+  //       ) as Book;
+  //       Object.assign(findedInBooks, responseBook);
+
+  //       this.router.navigate(['/books']);
+  //     },
+  //     (error) => {
+  //       this.router.navigate(['error'], {
+  //         queryParams: {
+  //           message: error.error.message,
+  //           status: error.status,
+  //           timestamp: error.error.timestamp,
+  //         },
+  //       });
+  //     }
+  //   );
+  // }
+
+  findBookByTitle(searchingFragment: string): Observable<Book[]> {
+    return this.httpService.findBookByTitle(searchingFragment).pipe(
+      catchError((error) => {
         this.router.navigate(['error'], {
           queryParams: {
             message: error.error.message,
@@ -143,22 +141,14 @@ export class BooksService {
             timestamp: error.error.timestamp,
           },
         });
-      }
+        throw error;
+      })
     );
   }
 
-  findBookByAuthor(searchingFragment: string) {
-    this.isHavingBooks = false;
-    this.isLoadingBooks = true;
-    this.httpService.findBookByAuthor(searchingFragment).subscribe(
-      (responce) => {
-        this.books = responce;
-        this.isLoadingBooks = false;
-        if (this.books.length === 0) {
-          this.isHavingBooks = true;
-        }
-      },
-      (error) => {
+  findBookByAuthor(searchingFragment: string): Observable<Book[]> {
+    return this.httpService.findBookByAuthor(searchingFragment).pipe(
+      catchError((error) => {
         this.router.navigate(['error'], {
           queryParams: {
             message: error.error.message,
@@ -166,22 +156,14 @@ export class BooksService {
             timestamp: error.error.timestamp,
           },
         });
-      }
+        throw error;
+      })
     );
   }
 
-  findBookByIsAvailable(isAvailable: boolean) {
-    this.isHavingBooks = false;
-    this.isLoadingBooks = true;
-    this.httpService.findBookByIsAvailable(isAvailable).subscribe(
-      (responce) => {
-        this.books = responce;
-        this.isLoadingBooks = false;
-        if (this.books.length === 0) {
-          this.isHavingBooks = true;
-        }
-      },
-      (error) => {
+  findBookByIsAvailable(isAvailable: boolean): Observable<Book[]> {
+    return this.httpService.findBookByIsAvailable(isAvailable).pipe(
+      catchError((error) => {
         this.router.navigate(['error'], {
           queryParams: {
             message: error.error.message,
@@ -189,7 +171,23 @@ export class BooksService {
             timestamp: error.error.timestamp,
           },
         });
-      }
+        throw error;
+      })
+    );
+  }
+
+  fetchUserBooks(userId: number): Observable<Book[]> {
+    return this.httpService.fetchUserBooks(userId).pipe(
+      catchError((error) => {
+        this.router.navigate(['error'], {
+          queryParams: {
+            message: error.error.message,
+            status: error.status,
+            timestamp: error.error.timestamp,
+          },
+        });
+        throw error;
+      })
     );
   }
 }

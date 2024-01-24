@@ -40,7 +40,7 @@ export class BookComponent implements OnInit {
   editBook() {
     this.router.navigate(['book', `${this.book.id}`, 'edit'], {
       queryParams: {
-        userId: this.book.userId,
+        // userId: this.book.userId,
         id: this.book.id,
         title: this.book.title,
         author: this.book.author,

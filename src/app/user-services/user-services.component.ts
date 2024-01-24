@@ -1,7 +1,8 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { BooksService } from '../services/books.service';
+import { Book, BooksService } from '../services/books.service';
 import { HttpClient } from '@angular/common/http';
 import { BooksComponent } from '../books/books.component';
+import { User, UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-user-services',
@@ -13,8 +14,23 @@ export class UserServicesComponent {
   choosenService: string = 'none';
   searchingFragment: string = ' ';
   isAvailable: boolean;
+  isLoadingBooks: boolean = false;
+  isHavingBooks: boolean = false;
+  userId: number;
+  user: User;
+  books: Book[] = [];
 
-  constructor(private booksService: BooksService) {}
+  constructor(
+    private booksService: BooksService,
+    private usersServices: UsersService
+  ) {}
+
+  enterAsUser() {
+    this.usersServices.findUserById(this.userId).subscribe((responce) => {
+      this.user = responce;
+      this.books = [];
+    });
+  }
 
   onServiceChange(event: Event) {
     const selectElement: HTMLSelectElement = <HTMLSelectElement>event.target;
@@ -27,30 +43,90 @@ export class UserServicesComponent {
   }
 
   findBookByTitle() {
-    this.booksService.findBookByTitle(this.searchingFragment);
+    this.isHavingBooks = false;
+    this.isLoadingBooks = true;
+    this.booksService
+      .findBookByTitle(this.searchingFragment)
+      .subscribe((responce) => {
+        this.books = responce;
+        this.isLoadingBooks = false;
+        if (this.books.length === 0) {
+          this.isHavingBooks = true;
+        }
+      });
   }
 
   findBookByAuthor() {
-    this.booksService.findBookByAuthor(this.searchingFragment);
+    this.isHavingBooks = false;
+    this.isLoadingBooks = true;
+    this.booksService
+      .findBookByAuthor(this.searchingFragment)
+      .subscribe((responce) => {
+        this.books = responce;
+        this.isLoadingBooks = false;
+        if (this.books.length === 0) {
+          this.isHavingBooks = true;
+        }
+      });
   }
 
   findBookByIsAvailable() {
-    this.booksService.findBookByIsAvailable(this.isAvailable);
+    this.isHavingBooks = false;
+    this.isLoadingBooks = true;
+    this.booksService
+      .findBookByIsAvailable(this.isAvailable)
+      .subscribe((responce) => {
+        this.books = responce;
+        this.isLoadingBooks = false;
+        if (this.books.length === 0) {
+          this.isHavingBooks = true;
+        }
+      });
   }
 
   showAllBooks() {
-    this.booksService.fetchBooks();
+    this.isLoadingBooks = true;
+    this.booksService.fetchBooks().subscribe((responce) => {
+      this.books = responce;
+      this.isLoadingBooks = false;
+    });
   }
 
-  orderBook(bookId: number | undefined) {
-    if (bookId) {
-      //TODO
+  showUserBooks() {
+    this.isLoadingBooks = true;
+    if (this.user.id) {
+      this.booksService.fetchUserBooks(this.user.id).subscribe((responce) => {
+        this.books = responce;
+        this.isLoadingBooks = false;
+      });
+    }
+  }
+
+  orderBook(book: Book) {
+    if (book.id) {
+      book.user = this.user;
+      book.isAvailable = false;
+      this.booksService.editBook(book.id, book).subscribe((responce) => {
+        console.log(responce);
+        let foundBook = this.books.find((b) => b.id === book.id) as Book;
+        Object.assign(foundBook, responce);
+      });
     } else {
       throw new Error("Something wrong with book's ID ");
     }
   }
 
-  get getBookService() {
-    return this.booksService;
+  returnBook(book: Book) {
+    if (book.id) {
+      book.user = undefined;
+      book.isAvailable = true;
+      this.booksService.editBook(book.id, book).subscribe((responce) => {
+        console.log(responce);
+        let foundBook = this.books.find((b) => b.id === book.id) as Book;
+        Object.assign(foundBook, responce);
+      });
+    } else {
+      throw new Error("Something wrong with book's ID ");
+    }
   }
 }

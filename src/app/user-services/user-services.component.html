@@ -1,4 +1,10 @@
 <h1>User Services</h1>
+<label><strong>Enter User ID (Temporary decision)</strong> </label>
+<input type="text" placeholder="User ID" [(ngModel)]="userId" />
+<button class="btn" (click)="enterAsUser()">Enter as user</button>
+<h2 *ngIf="user">
+  {{ "Hello, " + user.name + " " + user.surname + "!" }}
+</h2>
 
 <div class="container">
   <div class="form-control">
@@ -9,6 +15,7 @@
       <option value="findBookByAuthor">Find book by author</option>
       <option value="findBookByIsAvailable">Find book by available</option>
       <option value="showAllBooks">Show all books</option>
+      <option value="showUserBooks">Show User books</option>
     </select>
   </div>
 </div>
@@ -36,18 +43,23 @@
 
 <div *ngIf="choosenService === 'showAllBooks'" class="form-control">
   <label>Show all books in library</label>
-  <button class="btn" (click)="showAllBooks()">Find</button>
+  <button class="btn" (click)="showAllBooks()">Show</button>
 </div>
 
-<div *ngIf="getBookService.isLoadingBooks; else loadedblock">
+<div *ngIf="choosenService === 'showUserBooks'" class="form-control">
+  <label>Show User Books</label>
+  <button class="btn" (click)="showUserBooks()">Show User Books</button>
+</div>
+
+<div *ngIf="isLoadingBooks; else loadedblock">
   <h3>Loading...</h3>
 </div>
 
 <ng-template #loadedblock>
-  <h4 *ngIf="getBookService.isHavingBooks">Library doen't have such book(s)</h4>
-  <div class="card" *ngFor="let book of getBookService.books">
+  <h4 *ngIf="isHavingBooks">Library doen't have such book(s)</h4>
+  <div class="card" *ngFor="let book of books">
     <h4>
-      <a [routerLink]="['/book', book.id]">
+      <a>
         <p>{{ book.title }}</p>
         <p>by {{ book.author }}</p>
         <p *ngIf="book.isAvailable; else notAvailable">Book is available</p>
@@ -58,9 +70,17 @@
       <button
         class="btn"
         [disabled]="!book.isAvailable"
-        (click)="orderBook(book.id)"
+        (click)="orderBook(book)"
       >
         Order book
+      </button>
+      <button
+        *ngIf="choosenService === 'showUserBooks'"
+        class="btn"
+        [disabled]="book.isAvailable"
+        (click)="returnBook(book)"
+      >
+        Return book
       </button>
     </h4>
   </div>
