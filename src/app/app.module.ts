@@ -14,6 +14,7 @@ import { EditBookComponent } from './edit-book/edit-book.component';
 import { AboutExtraComponent } from './about-extra/about-extra.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { UserServicesComponent } from './user-services/user-services.component';
+import { AdminServicesComponent } from './admin-services/admin-services.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { UserServicesComponent } from './user-services/user-services.component';
     AboutExtraComponent,
     ErrorPageComponent,
     UserServicesComponent,
+    AdminServicesComponent,
   ],
   imports: [
     BrowserModule,

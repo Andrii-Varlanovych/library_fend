@@ -8,7 +8,7 @@ import { Observable, catchError } from 'rxjs';
 import { User } from './users.service';
 
 export interface Book {
-  user?: User;
+  user?: User | null;
   id?: number;
   title: string;
   author: string;
@@ -79,10 +79,7 @@ export class BooksService {
 
   deleteBook(id: number) {
     this.httpService.delete(id).subscribe(
-      () => {
-        this.books = this.books.filter((b) => b.id !== id);
-        this.router.navigate(['/books']);
-      },
+      () => {},
       (error) => {
         this.router.navigate(['error'], {
           queryParams: {

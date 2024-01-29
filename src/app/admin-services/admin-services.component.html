@@ -1,0 +1,65 @@
+<h1>Admin Services</h1>
+
+<div class="container">
+  <div class="form-control">
+    <label>Choose service</label>
+    <select [(ngModel)]="choosenService" (change)="onServiceChange($event)">
+      <option value="none"></option>
+      <option value="findBookByTitle">Find book by title</option>
+      <option value="findBookByAuthor">Find book by author</option>
+      <option value="findBookByIsAvailable">Find book by available</option>
+      <option value="showAllBooks">Show all books</option>
+      <option value="AddBook">Add Book</option>
+    </select>
+  </div>
+</div>
+
+<div *ngIf="choosenService === 'findBookByTitle'" class="form-control">
+  <label>Enter whole title or just a fragment</label>
+  <input type="text" placeholder="Title" [(ngModel)]="searchingFragment" />
+  <button class="btn" (click)="findBookByTitle()">Find</button>
+</div>
+
+<div *ngIf="choosenService === 'findBookByAuthor'" class="form-control">
+  <label>Enter whole author's name or just a fragment</label>
+  <input type="text" placeholder="Author" [(ngModel)]="searchingFragment" />
+  <button class="btn" (click)="findBookByAuthor()">Find</button>
+</div>
+
+<div *ngIf="choosenService === 'findBookByIsAvailable'" class="form-control">
+  <label>Choose book's status</label>
+  <select [(ngModel)]="isAvailable" (change)="isAvalableChange($event)">
+    <option value="true">Available</option>
+    <option value="false">Not available</option>
+  </select>
+  <button class="btn" (click)="findBookByIsAvailable()">Find</button>
+</div>
+
+<div *ngIf="choosenService === 'showAllBooks'" class="form-control">
+  <button class="btn" (click)="showAllBooks()">Show</button>
+</div>
+
+<div *ngIf="choosenService === 'AddBook'" class="form-control">
+  <button [routerLink]="['/add-book']" class="btn">Add new book</button>
+</div>
+
+<div *ngIf="isLoadingBooks; else loadedblock">
+  <h3>Loading...</h3>
+</div>
+
+<ng-template #loadedblock>
+  <h4 *ngIf="isHavingBooks">Library doen't have such book(s)</h4>
+  <div class="card" *ngFor="let book of books">
+    <h4>
+      <a>
+        <p>{{ book.title }}</p>
+        <p>by {{ book.author }}</p>
+        <p *ngIf="book.isAvailable; else notAvailable">Book is available</p>
+        <ng-template #notAvailable>
+          <p class="uncompletedColor">Book is not available</p>
+        </ng-template>
+      </a>
+      <button class="btn" (click)="goToBook(book)">Go To Book</button>
+    </h4>
+  </div>
+</ng-template>

@@ -10,6 +10,7 @@ import { EditBookComponent } from './edit-book/edit-book.component';
 import { AboutExtraComponent } from './about-extra/about-extra.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { UserServicesComponent } from './user-services/user-services.component';
+import { AdminServicesComponent } from './admin-services/admin-services.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -29,7 +30,16 @@ const routes: Routes = [
     component: BookComponent,
     children: [{ path: 'edit', component: EditBookComponent }],
   },
-  { path: 'user-services', component: UserServicesComponent },
+
+  {
+    path: 'user-services',
+    component: UserServicesComponent,
+  },
+  {
+    path: 'admin-services',
+    component: AdminServicesComponent,
+  },
+  { path: 'add-book', component: AddBookComponent },
   { path: 'error', component: ErrorPageComponent },
   { path: '**', redirectTo: 'error' },
 ];

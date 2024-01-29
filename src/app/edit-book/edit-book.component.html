@@ -37,7 +37,7 @@
     </div>
 
     <div class="form-control">
-      <label>Complited</label>
+      <label>Avialable</label>
       <select formControlName="isAvailable">
         <option value="true">Avialable</option>
         <option value="false">Not avialable</option>
@@ -47,4 +47,7 @@
 
     <button class="btn" type="submit" [disabled]="form.invalid">Edit</button>
   </form>
+  <div *ngIf="isEdited">
+    <h3>Book was edided</h3>
+  </div>
 </div>

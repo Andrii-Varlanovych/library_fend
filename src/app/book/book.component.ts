@@ -1,5 +1,10 @@
-import { Component, Injectable, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
+import {
+  ActivatedRoute,
+  NavigationExtras,
+  Params,
+  Router,
+} from '@angular/router';
 import { Book, BooksService } from '../services/books.service';
 
 @Component({
@@ -10,42 +15,39 @@ import { Book, BooksService } from '../services/books.service';
 @Injectable({ providedIn: 'root' })
 export class BookComponent implements OnInit {
   book: Book;
-  isShowId: boolean = false;
+  isDeleted: boolean;
   constructor(
     private router: Router,
     private rout: ActivatedRoute,
     private booksService: BooksService
   ) {}
-  ngOnInit(): void {
-    this.rout.params.subscribe((param: Params) => {
-      this.book = <Book>this.booksService.getBookById(+param['id']);
-    });
-    this.rout.queryParams.subscribe((params: Params) => {
-      this.isShowId = params['showUserId'];
-    });
-  }
 
-  hideUserId() {
-    this.router.navigate([`/book/${this.book.id}/`, { showUserId: false }]);
+  ngOnInit(): void {
+    this.rout.params.subscribe((params: Params) => {
+      if (history.state && history.state.book) {
+        this.book = history.state && history.state.book;
+      } else {
+        throw Error('Something wrong with book');
+      }
+    });
   }
 
   deleteBook(id: number | undefined) {
+    ////NEED TO UPGRADE. ADD FIELD 'Book was deleted on page'
     if (typeof id === 'number') {
       this.booksService.deleteBook(id);
     } else {
       throw Error('Something wrong with Book ID');
     }
+    this.isDeleted = true;
   }
 
-  editBook() {
-    this.router.navigate(['book', `${this.book.id}`, 'edit'], {
-      queryParams: {
-        // userId: this.book.userId,
-        id: this.book.id,
-        title: this.book.title,
-        author: this.book.author,
-        isAvailable: this.book.isAvailable as Boolean,
+  editBook(book: Book) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        book: book,
       },
-    });
+    };
+    this.router.navigate(['book', `${this.book.id}`, 'edit'], navigationExtras);
   }
 }

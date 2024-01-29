@@ -1,34 +1,42 @@
-<div>
-  <h1>{{ book.title }}</h1>
-  <h3>by {{ book.author }}</h3>
+<h1>Book page</h1>
 
-  <div class="button-container">
+<div class="book-details-container">
+  <div class="book-details-content">
+    <h2>{{ book.title }}</h2>
+    <h3>by {{ book.author }}</h3>
     <p *ngIf="book.isAvailable; else notAvailable">Book is available</p>
     <ng-template #notAvailable>
       <p class="uncompletedColor">Book is not available</p>
     </ng-template>
-
-    <button class="btn btn-danger" (click)="deleteBook(book.id)">
+  </div>
+  <div class="button-container">
+    <button class="btn" routerLink="/admin-services">Back</button>
+    <button
+      *ngIf="
+        (!book.isAvailable && !book.user) || (book.isAvailable && !book.user)
+      "
+      (click)="editBook(book)"
+      class="btn"
+    >
+      Edit book
+    </button>
+    <button
+      [disabled]="book.user"
+      class="btn btn-danger"
+      (click)="deleteBook(book.id)"
+    >
       Delete book
     </button>
   </div>
-  <!-- <div>
-    <p *ngIf="isShowId">
-      <strong>User ID: {{ book.userId }}</strong>
-    </p>
-  </div> -->
-  <p></p>
-  <button class="btn" routerLink="/books">Back</button>
-  <p></p>
-  <button
-    class="btn"
-    [routerLink]="['/book', book.id]"
-    [queryParams]="{ showUserId: true }"
-  >
-    Show userId
-  </button>
-  <button class="btn" (click)="hideUserId()">Hide userId</button>
-  <p></p>
-  <button (click)="editBook()" class="btn">Edit book</button>
+</div>
+
+<p></p>
+<div *ngIf="book.user">
+  <hr />
+  <h3>{{ book.user.name }} {{ book.user.surname }} is reading this book.</h3>
+</div>
+
+<div *ngIf="isDeleted">
+  <h3>Book was deleted</h3>
 </div>
 <router-outlet></router-outlet>

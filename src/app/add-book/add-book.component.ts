@@ -1,6 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Book, BooksService } from '../services/books.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-book',
@@ -11,7 +12,7 @@ import { Book, BooksService } from '../services/books.service';
 export class AddBookComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private booksService: BooksService) {}
+  constructor(private booksService: BooksService, private router: Router) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -35,5 +36,6 @@ export class AddBookComponent implements OnInit {
       isAvailable: JSON.parse(formData.isAvailable),
     };
     this.booksService.addBook(newBook);
+    this.router.navigate(['/admin-services']);
   }
 }

@@ -1,3 +1,5 @@
+<h1>Add Book Page</h1>
+
 <div class="container">
   <form class="card" [formGroup]="form" (ngSubmit)="submit()">
     <!-- <div class="form-control">
@@ -52,14 +54,16 @@
     </div>
 
     <div class="form-control">
-      <label>Complited</label>
+      <label>Available</label>
       <select formControlName="isAvailable">
         <option value="true">Available</option>
         <option value="false">Not available</option>
       </select>
       <div class="validation"></div>
     </div>
-
     <button class="btn" type="submit" [disabled]="form.invalid">Add</button>
   </form>
+  <button [routerLink]="'/admin-services'" class="btn">
+    Back To Admin Services
+  </button>
 </div>
