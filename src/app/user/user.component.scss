@@ -1,0 +1,29 @@
+p {
+  &.uncompletedColor {
+    color: red;
+  }
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column; /* Змінюємо напрямок розташування на стовпець */
+  align-items: flex-end; /* Вирівнюємо елементи по правому краю */
+}
+
+.button-container button {
+  margin-top: 10px; /* Додаємо відступ між кнопками */
+}
+
+.user-details-container {
+  display: flex;
+  justify-content: space-between; /* Рівномірний розподіл простору між елементами */
+  align-items: center; /* Вирівнюємо елементи по вертикалі по центру */
+}
+
+.user-details-content {
+  flex: 1; /* Розтягуємо контент на всю доступну ширину */
+}
+
+.button-container {
+  text-align: right; /* Вирівнюємо текст кнопок по правому краю */
+}

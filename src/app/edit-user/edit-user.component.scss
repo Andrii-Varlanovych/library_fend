@@ -1,0 +1,8 @@
+input {
+  &.ng-invalid.ng-touched {
+    background-color: #f1d3d6;
+  }
+  &.ng-valid {
+    background-color: #aee8ab7a;
+  }
+}

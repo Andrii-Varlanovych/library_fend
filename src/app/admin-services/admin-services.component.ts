@@ -17,6 +17,8 @@ export class AdminServicesComponent {
   isHavingBooks: boolean = false;
   books: Book[];
   users: User[];
+  isLoadingUsers: boolean = false;
+  isHavingUsers: boolean = false;
 
   constructor(
     private booksService: BooksService,
@@ -27,6 +29,8 @@ export class AdminServicesComponent {
   onServiceChange(event: Event) {
     const selectElement: HTMLSelectElement = <HTMLSelectElement>event.target;
     this.choosenService = selectElement.value;
+    this.books = [];
+    this.users = [];
   }
 
   findBookByTitle() {
@@ -91,5 +95,64 @@ export class AdminServicesComponent {
       },
     };
     this.router.navigate(['/book', book.id], navigationExtras);
+  }
+
+  findUserByName() {
+    this.isHavingUsers = false;
+    this.isLoadingUsers = true;
+    this.usersServices
+      .findUserByName(this.searchingFragment)
+      .subscribe((responce) => {
+        this.users = responce;
+        this.isLoadingUsers = false;
+        if (this.users.length === 0) {
+          this.isHavingUsers = true;
+        }
+      });
+  }
+
+  findUserBySurname() {
+    this.isHavingUsers = false;
+    this.isLoadingUsers = true;
+    this.usersServices
+      .findUserBySurname(this.searchingFragment)
+      .subscribe((responce) => {
+        this.users = responce;
+        this.isLoadingUsers = false;
+        if (this.users.length === 0) {
+          this.isHavingUsers = true;
+        }
+      });
+  }
+
+  findUserByEmail() {
+    this.isHavingUsers = false;
+    this.isLoadingUsers = true;
+    this.usersServices
+      .findUserByEmail(this.searchingFragment)
+      .subscribe((responce) => {
+        this.users = responce;
+        this.isLoadingUsers = false;
+        if (this.users.length === 0) {
+          this.isHavingUsers = true;
+        }
+      });
+  }
+
+  showAllUsers() {
+    this.isLoadingUsers = true;
+    this.usersServices.fetchUsers().subscribe((responce) => {
+      this.users = responce;
+      this.isLoadingUsers = false;
+    });
+  }
+
+  goToUser(user: User) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        user: user,
+      },
+    };
+    this.router.navigate(['/user', user.id], navigationExtras);
   }
 }

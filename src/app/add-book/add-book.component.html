@@ -63,6 +63,9 @@
     </div>
     <button class="btn" type="submit" [disabled]="form.invalid">Add</button>
   </form>
+  <div *ngIf="isAdded">
+    <h3>Book was added</h3>
+  </div>
   <button [routerLink]="'/admin-services'" class="btn">
     Back To Admin Services
   </button>

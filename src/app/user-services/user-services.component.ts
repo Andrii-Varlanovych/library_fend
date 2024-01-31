@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { Book, BooksService } from '../services/books.service';
 import { HttpClient } from '@angular/common/http';
-import { BooksComponent } from '../books/books.component';
 import { User, UsersService } from '../services/users.service';
 
 @Component({

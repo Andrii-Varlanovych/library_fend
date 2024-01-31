@@ -30,11 +30,14 @@
   </div>
 </div>
 
+<hr />
 <p></p>
-<div *ngIf="book.user">
-  <hr />
+<div *ngIf="book.user; else nobodyReading">
   <h3>{{ book.user.name }} {{ book.user.surname }} is reading this book.</h3>
 </div>
+<ng-template #nobodyReading>
+  <h3>Nobody is reading this book</h3>
+</ng-template>
 
 <div *ngIf="isDeleted">
   <h3>Book was deleted</h3>

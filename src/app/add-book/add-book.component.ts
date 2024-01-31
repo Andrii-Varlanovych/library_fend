@@ -2,6 +2,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Book, BooksService } from '../services/books.service';
 import { Router } from '@angular/router';
+import { isEqual } from 'lodash';
 
 @Component({
   selector: 'app-add-book',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class AddBookComponent implements OnInit {
   form: FormGroup;
+  isAdded: boolean;
 
   constructor(private booksService: BooksService, private router: Router) {}
 
@@ -34,8 +36,10 @@ export class AddBookComponent implements OnInit {
       title: formData.title,
       author: formData.author,
       isAvailable: JSON.parse(formData.isAvailable),
+      user: null,
     };
-    this.booksService.addBook(newBook);
-    this.router.navigate(['/admin-services']);
+    this.booksService.addBook(newBook).subscribe((responce) => {
+      this.isAdded = true;
+    });
   }
 }

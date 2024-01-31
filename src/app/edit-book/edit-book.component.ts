@@ -64,11 +64,11 @@ export class EditBookComponent implements OnInit {
           if (isEqual(responce, editedBook)) {
             this.isEdited = true;
           }
-          const navigationExtras: NavigationExtras = {
-            state: {
-              book: book,
-            },
-          };
+          // const navigationExtras: NavigationExtras = {
+          //   state: {
+          //     book: book,
+          //   },
+          // };
         });
     } else {
       throw new Error('Something wrong with id');

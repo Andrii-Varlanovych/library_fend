@@ -10,6 +10,11 @@
       <option value="findBookByIsAvailable">Find book by available</option>
       <option value="showAllBooks">Show all books</option>
       <option value="AddBook">Add Book</option>
+      <option value="findUserByName">Find user by name</option>
+      <option value="findUserBySurname">Find user by surname</option>
+      <option value="findUserByEmail">Find user by email</option>
+      <option value="showAllUsers">Show all users</option>
+      <option value="AddUser">Add user</option>
     </select>
   </div>
 </div>
@@ -43,6 +48,33 @@
   <button [routerLink]="['/add-book']" class="btn">Add new book</button>
 </div>
 
+<div *ngIf="choosenService === 'findUserByName'" class="form-control">
+  <label>Enter whole name or just a fragment</label>
+  <input type="text" placeholder="Name" [(ngModel)]="searchingFragment" />
+  <button class="btn" (click)="findUserByName()">Find</button>
+</div>
+
+<div *ngIf="choosenService === 'findUserBySurname'" class="form-control">
+  <label>Enter whole surname or just a fragment</label>
+  <input type="text" placeholder="Surname" [(ngModel)]="searchingFragment" />
+  <button class="btn" (click)="findUserBySurname()">Find</button>
+</div>
+
+<div *ngIf="choosenService === 'findUserByEmail'" class="form-control">
+  <label>Enter whole email or just a fragment</label>
+  <input type="text" placeholder="Email" [(ngModel)]="searchingFragment" />
+  <button class="btn" (click)="findUserByEmail()">Find</button>
+</div>
+
+<div *ngIf="choosenService === 'showAllUsers'" class="form-control">
+  <button class="btn" (click)="showAllUsers()">Show</button>
+</div>
+
+<div *ngIf="choosenService === 'AddUser'" class="form-control">
+  <button [routerLink]="['/add-user']" class="btn">Add user</button>
+</div>
+
+<!-- /////////////////////// -->
 <div *ngIf="isLoadingBooks; else loadedblock">
   <h3>Loading...</h3>
 </div>
@@ -60,6 +92,24 @@
         </ng-template>
       </a>
       <button class="btn" (click)="goToBook(book)">Go To Book</button>
+    </h4>
+  </div>
+</ng-template>
+
+<div *ngIf="isLoadingUsers; else loadedusersblock">
+  <h3>Loading...</h3>
+</div>
+
+<ng-template #loadedusersblock>
+  <h4 *ngIf="isHavingUsers">Library doen't have such user(s)</h4>
+  <div class="card" *ngFor="let user of users">
+    <h4>
+      <a>
+        <p>User name: {{ user.name }}</p>
+        <p>User surname: {{ user.surname }}</p>
+        <p>User email: {{ user.email }}</p>
+      </a>
+      <button class="btn" (click)="goToUser(user)">Go To User</button>
     </h4>
   </div>
 </ng-template>

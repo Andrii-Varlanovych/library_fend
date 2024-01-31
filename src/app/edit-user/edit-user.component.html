@@ -1,0 +1,63 @@
+<div class="container">
+  <form class="card" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-control">
+      <label>Name</label>
+      <input type="text" placeholder="Name" formControlName="name" />
+      <div
+        *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+        class="validation"
+      >
+        <small *ngIf="form.get('name')?.errors?.['required']"
+          >This field can't be empty</small
+        >
+        <small *ngIf="form.get('name')?.errors?.['minlength']">
+          Name must containes
+          {{form.get('name')?.errors?.['minlength']?.requiredLength}} chars. You
+          have entered only
+          {{form.get('name')?.errors?.['minlength']?.actualLength}} char(s).
+        </small>
+      </div>
+      <label>Surname</label>
+      <input type="text" placeholder="Surname" formControlName="surname" />
+      <div
+        *ngIf="form.get('surname')?.invalid && form.get('surname')?.touched"
+        class="validation"
+      >
+        <small *ngIf="form.get('surname')?.errors?.['required']"
+          >This field can't be empty</small
+        >
+        <small *ngIf="form.get('surname')?.errors?.['minlength']">
+          Surname must containes
+          {{form.get('surname')?.errors?.['minlength']?.requiredLength}} chars.
+          You have entered only
+          {{form.get('surname')?.errors?.['minlength']?.actualLength}} char(s).
+        </small>
+      </div>
+      <label>Email</label>
+      <input type="text" placeholder="Email" formControlName="email" />
+      <div
+        *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+        class="validation"
+      >
+        <small *ngIf="form.get('email')?.errors?.['required']"
+          >This field can't be empty</small
+        >
+        <small *ngIf="form.get('email')?.errors?.['minlength']">
+          Email must containes
+          {{form.get('email')?.errors?.['minlength']?.requiredLength}} chars.
+          You have entered only
+          {{form.get('email')?.errors?.['minlength']?.actualLength}} char(s).
+        </small>
+        <p></p>
+        <small *ngIf="form.get('email')?.errors?.['email']">
+          This is not an email
+        </small>
+      </div>
+    </div>
+
+    <button class="btn" type="submit" [disabled]="form.invalid">Edit</button>
+  </form>
+  <div *ngIf="isEdited">
+    <h3>User was edided</h3>
+  </div>
+</div>

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, delay } from 'rxjs';
 import { Book } from './books.service';
-import { BooksComponent } from '../books/books.component';
 import { User } from './users.service';
 
 @Injectable({ providedIn: 'root' })
@@ -15,11 +14,11 @@ export class HttpService {
       .pipe(delay(1500));
   }
 
-  post(newBook: Book): Observable<Book> {
+  addBook(newBook: Book): Observable<Book> {
     return this.http.post<Book>('http://localhost:8080/books', newBook);
   }
 
-  delete(id: number): Observable<void> {
+  deleteBook(id: number): Observable<void> {
     return this.http.delete<void>(`http://localhost:8080/books/${id}`);
   }
 
@@ -56,9 +55,41 @@ export class HttpService {
       .get<User>(`http://localhost:8080/users/${userId}`)
       .pipe(delay(1500));
   }
-}
 
-// http://localhost:8080/books
-// https://jsonplaceholder.typicode.com/todos?_limit=5
-//https://jsonplaceholder.typicode.com/todos
-//https://jsonplaceholder.typicode.com/todos/${id}
+  findUserByName(searchingFragment: string): Observable<User[]> {
+    return this.http
+      .get<User[]>(`http://localhost:8080/users/name/${searchingFragment}`)
+      .pipe(delay(1500));
+  }
+
+  findUserBySurname(searchingFragment: string): Observable<User[]> {
+    return this.http
+      .get<User[]>(`http://localhost:8080/users/surname/${searchingFragment}`)
+      .pipe(delay(1500));
+  }
+
+  findUserByEmail(searchingFragment: string): Observable<User[]> {
+    return this.http
+      .get<User[]>(`http://localhost:8080/users/email/${searchingFragment}`)
+      .pipe(delay(1500));
+  }
+
+  fetchUsers(): Observable<User[]> {
+    return this.http
+      .get<User[]>('http://localhost:8080/users')
+      .pipe(delay(1500));
+  }
+
+  addUser(newUser: User): Observable<User> {
+    console.log('http', newUser);
+    return this.http.post<User>('http://localhost:8080/users', newUser);
+  }
+
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`http://localhost:8080/users/${id}`);
+  }
+
+  editUser(id: number, user: User): Observable<User> {
+    return this.http.put<User>(`http://localhost:8080/users/${id}`, user);
+  }
+}

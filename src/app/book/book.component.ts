@@ -33,7 +33,6 @@ export class BookComponent implements OnInit {
   }
 
   deleteBook(id: number | undefined) {
-    ////NEED TO UPGRADE. ADD FIELD 'Book was deleted on page'
     if (typeof id === 'number') {
       this.booksService.deleteBook(id);
     } else {

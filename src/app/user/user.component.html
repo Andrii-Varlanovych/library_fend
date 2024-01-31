@@ -1,0 +1,45 @@
+<h1>User page</h1>
+
+<div class="user-details-container">
+  <div class="user-details-content">
+    <h2>Name: {{ user.name }}</h2>
+    <h3>Surname: {{ user.surname }}</h3>
+    <h3>Email: {{ user.email }}</h3>
+  </div>
+
+  <div class="button-container">
+    <button class="btn" routerLink="/admin-services">Back</button>
+    <button (click)="editUser(user)" class="btn">Edit user</button>
+    <button
+      [disabled]="user.books?.length !== 0"
+      class="btn btn-danger"
+      (click)="deleteUser(user.id)"
+    >
+      Delete user
+    </button>
+  </div>
+</div>
+<hr />
+
+<div *ngIf="user.books?.length !== 0; else noBooksTemplate">
+  <button class="btn" (click)="isShowUserBooks = true">Show user books</button>
+  <button class="btn" (click)="isShowUserBooks = false">Hide user books</button>
+</div>
+<ng-template #noBooksTemplate>
+  <strong>This user doesn't have books</strong>
+</ng-template>
+
+<div *ngIf="isShowUserBooks">
+  <div class="card" *ngFor="let book of user.books">
+    <h4>
+      <p>{{ book.title }}</p>
+      <p>by {{ book.author }}</p>
+    </h4>
+  </div>
+</div>
+
+<div *ngIf="isDeleted">
+  <h3>User was deleted</h3>
+</div>
+
+<router-outlet></router-outlet>
